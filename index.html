@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio 2Fit - אימון אישי בחיפה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&family=Assistant:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ee;
+    --gold: #c8a96e;
+    --gold-light: #e8d5a8;
+    --dark: #111111;
+    --mid: #1e1e1e;
+    --accent: #c8a96e;
+    --text-muted: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Heebo', 'Assistant', sans-serif;
+    direction: rtl;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  .nav-logo {
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    opacity: 0.85;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(200,169,110,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 80% at 80% 60%, rgba(200,169,110,0.04) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 60% at center, black 30%, transparent 80%);
+  }
+
+  .hero-content {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    padding: 40px 20px;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(200,169,110,0.3);
+    padding: 8px 20px;
+    border-radius: 100px;
+    margin-bottom: 36px;
+  }
+
+  .hero-title {
+    font-size: clamp(64px, 12vw, 130px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+  }
+
+  .hero-title .line1 { display: block; color: var(--white); }
+  .hero-title .line2 {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--gold);
+    opacity: 0.7;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(245,242,238,0.6);
+    margin: 28px 0 48px;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 48px;
+  }
+
+  .stars { color: var(--gold); font-size: 22px; letter-spacing: 3px; }
+
+  .rating-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  .rating-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--gold);
+    color: var(--black);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 18px 48px;
+    border-radius: 4px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(200,169,110,0.3);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.35;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-hint span { font-size: 11px; letter-spacing: 2px; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 120px 60px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+  }
+
+  /* ABOUT */
+  .about {
+    background: var(--dark);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-visual {
+    position: relative;
+  }
+
+  .about-card {
+    background: var(--mid);
+    border: 1px solid rgba(200,169,110,0.15);
+    border-radius: 16px;
+    padding: 60px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 60%; height: 2px;
+    background: linear-gradient(to left, var(--gold), transparent);
+  }
+
+  .studio-name-big {
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(200,169,110,0.3);
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+
+  .about-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,169,110,0.1);
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .about-location {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  .about-text p {
+    font-size: 17px;
+    line-height: 1.85;
+    color: rgba(245,242,238,0.72);
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 40px;
+    margin-top: 48px;
+  }
+
+  .stat {
+    border-right: 1px solid rgba(200,169,110,0.2);
+    padding-right: 40px;
+  }
+
+  .stat:last-child { border: none; }
+
+  .stat-num {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* FEATURES */
+  .features {
+    background: var(--black);
+  }
+
+  .features-intro {
+    max-width: 600px;
+    margin-bottom: 80px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(200,169,110,0.08);
+    border: 1px solid rgba(200,169,110,0.1);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .feature-card {
+    background: var(--dark);
+    padding: 52px 40px;
+    transition: background 0.3s;
+  }
+
+  .feature-card:hover { background: #191919; }
+
+  .feature-icon {
+    font-size: 36px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .feature-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--white);
+  }
+
+  .feature-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(245,242,238,0.55);
+    font-weight: 300;
+  }
+
+  /* REVIEWS */
+  .reviews {
+    background: var(--dark);
+  }
+
+  .reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 72px;
+  }
+
+  .reviews-score {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .score-num {
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .score-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .review-card {
+    background: var(--mid);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 36px 32px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+  }
+
+  .review-card:hover {
+    border-color: rgba(200,169,110,0.25);
+    transform: translateY(-4px);
+  }
+
+  .review-card::before {
+    content: '"';
+    position: absolute;
+    top: 20px;
+    left: 28px;
+    font-size: 80px;
+    line-height: 1;
+    color: rgba(200,169,110,0.1);
+    font-family: Georgia, serif;
+  }
+
+  .review-stars {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+  }
+
+  .review-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: rgba(245,242,238,0.75);
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+
+  .reviewer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .reviewer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), rgba(200,169,110,0.3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+
+  .reviewer-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .reviewer-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .review-featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(200,169,110,0.08), rgba(200,169,110,0.03));
+    border-color: rgba(200,169,110,0.2);
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--black);
+    text-align: center;
+    padding: 140px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(200,169,110,0.06) 0%, transparent 70%);
+  }
+
+  .cta-section .section-title {
+    max-width: 700px;
+    margin: 0 auto 20px;
+  }
+
+  .cta-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    margin-bottom: 56px;
+    font-weight: 300;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--black);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 18px 48px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(200,169,110,0.25);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 18px 48px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.2);
+    letter-spacing: 0.5px;
+    transition: border-color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(200,169,110,0.1);
+    padding: 60px 60px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  .footer-location {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .footer-copy {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* DIVIDER */
+  .gold-line {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .about { grid-template-columns: 1fr; gap: 48px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .review-featured { grid-column: span 1; }
+    .stats-row { gap: 24px; }
+    .stat { padding-right: 24px; }
+    footer { flex-direction: column; text-align: center; }
+    .reviews-header { flex-direction: column; gap: 24px; align-items: flex-start; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-content > * {
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.4s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.55s; }
+  .hero-content > *:nth-child(5) { animation-delay: 0.65s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">2FIT</div>
+  <ul class="nav-links">
+    <li><a href="#about">אודות</a></li>
+    <li><a href="#features">מה מיוחד</a></li>
+    <li><a href="#reviews">ביקורות</a></li>
+    <li><a href="#contact">צור קשר</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">אימון אישי בחיפה</div>
+    <h1 class="hero-title">
+      <span class="line1">STUDIO</span>
+      <span class="line2">2FIT</span>
+    </h1>
+    <p class="hero-subtitle">סטודיו בוטיק לאימוני קבוצה עם ליווי אישי<br>תוכניות אימון שמשתנות כל יום</p>
+    <div class="hero-rating">
+      <span class="rating-number">5.0</span>
+      <span class="stars">★★★★★</span>
+      <span class="rating-text">27 ביקורות</span>
+    </div>
+    <a href="#contact" class="hero-cta">הצטרפו אלינו →</a>
+  </div>
+  <div class="scroll-hint">
+    <span>גלול</span>
+    <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+      <path d="M8 4V20M8 20L4 15M8 20L12 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="about-card">
+      <div class="studio-name-big">2FIT</div>
+      <div class="about-badge">⭐ דירוג מושלם</div>
+      <div class="about-location">📍 חיפה, ישראל</div>
+      <div class="stats-row" style="justify-content:center; margin-top: 40px;">
+        <div class="stat">
+          <div class="stat-num">5.0</div>
+          <div class="stat-label">דירוג</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">27</div>
+          <div class="stat-label">ביקורות</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">אנרגיה</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="about-text">
+    <div class="section-label">אודות הסטודיו</div>
+    <div class="gold-line"></div>
+    <h2 class="section-title">אימון שמשנה<br>את הגוף שלך</h2>
+    <p>ב-Studio 2Fit אנחנו מאמינים שאימון טוב הוא הרבה יותר מזיעה — זו חוויה שמכניסה אותך לזון, מאתגרת אותך כל יום מחדש, ומשאירה אותך עם רצון לחזור.</p>
+    <p>הסטודיו שלנו מציע תוכניות אימון מקצועיות המותאמות לכל רמת כושר, באווירה משפחתית וחמה עם מדריכים מוסמכים ומסורים.</p>
+    <a href="#contact" class="btn-primary" style="display:inline-block; margin-top: 16px;">קבעו שיעור ניסיון</a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-intro">
+    <div class="section-label">מה מיוחד אצלנו</div>
+    <div class="gold-line"></div>
+    <h2 class="section-title">למה Studio 2Fit?</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🔄</span>
+      <div class="feature-title">תוכניות שמשתנות כל יום</div>
+      <p class="feature-desc">כל אימון הוא חווית חוד מיוחדת. אין שגרה, אין שעמום — רק אתגרים חדשים שמניעים אותך קדימה.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">👥</span>
+      <div class="feature-title">קבוצות קטנות ואינטימיות</div>
+      <p class="feature-desc">בסטודיו בוטיק כמו שלנו, כל מתאמן מקבל תשומת לב אישית מהמדריך — כמו אימון אישי, בעלות של קבוצה.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <div class="feature-title">אנרגיה ווייב שלא תמצאו בשום מקום</div>
+      <p class="feature-desc">האווירה בסטודיו היא משהו מיוחד — מלאת אנרגיה, מוטיבציה ואדרנלין שמשאירים אותך רוצה עוד.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🏆</span>
+      <div class="feature-title">מדריכים מקצועיים</div>
+      <p class="feature-desc">הצוות שלנו מוסמך ומנוסה, ידחוף אותך לגבולות שלא ידעת שיש לך — בדיוק במינון הנכון.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🧹</span>
+      <div class="feature-title">מקום נקי ומסודר</div>
+      <p class="feature-desc">אנחנו מחזיקים את הסטודיו ברמה הגבוהה ביותר של ניקיון וסדר — כי אתה מגיע לסביבה שמכבדת אותך.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">❤️</span>
+      <div class="feature-title">אווירה משפחתית</div>
+      <p class="feature-desc">יותר מסטודיו — זו קהילה. תחושת השייכות שתמצא כאן היא הדבר הראשון שתשים לב אליו.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="reviews-header">
+    <div>
+      <div class="section-label">מה אומרים המתאמנים</div>
+      <div class="gold-line"></div>
+      <h2 class="section-title">ביקורות אמיתיות</h2>
+    </div>
+    <div class="reviews-score">
+      <div class="score-num">5.0</div>
+      <div class="stars" style="font-size:18px;">★★★★★</div>
+      <div class="score-sub">27 ביקורות · Google Maps</div>
+    </div>
+  </div>
+
+  <div class="reviews-grid">
+
+    <!-- Featured review -->
+    <div class="review-card review-featured">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">סטודיו מעולה עם ווייב מדהים, מדריכים מקצועיים ותוכניות אימון שמשתנות כל יום! בלי ספק האווירה הכי טובה שתמצאו בחיפה.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">מ</div>
+        <div>
+          <div class="reviewer-name">מוחנד רפע</div>
+          <div class="reviewer-meta">Local Guide · לפני 7 חודשים</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">הכי טוב!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ס</div>
+        <div>
+          <div class="reviewer-name">סיוואר חלאילי</div>
+          <div class="reviewer-meta">לפני 3 שנים</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">המקום המושלם והמדריך המדהים שיעיר את הגוף שלך לחיים!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ק</div>
+        <div>
+          <div class="reviewer-name">קאמיל מלשי</div>
+          <div class="reviewer-meta">לפני 7 שנים · Local Guide</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card review-featured">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">הרבה מעבר לחוויה ספורטיבית — אפשר לומר שזה הסטודיו הטוב ביותר בחיפה. מקצועי ונעים ביותר, מלא אנרגיה ואדרנלין.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">א</div>
+        <div>
+          <div class="reviewer-name">עלא</div>
+          <div class="reviewer-meta">Local Guide · לפני 7 שנים</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">מקום מדהים, מקצועי ואווירה משפחתית!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">מ</div>
+        <div>
+          <div class="reviewer-name">מונא נסאר</div>
+          <div class="reviewer-meta">לפני 4 שנים</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">ממליץ בחום! מקום נקי, מדריכים מקצועיים בכל מקום.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ס</div>
+        <div>
+          <div class="reviewer-name">סהר חורי</div>
+          <div class="reviewer-meta">לפני 4 שנים</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">מלך הספורט!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ב</div>
+        <div>
+          <div class="reviewer-name">בשאר מסארווה</div>
+          <div class="reviewer-meta">Local Guide · לפני 4 שנים</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">ממש דוחפים אותך לאליפות שם!</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ת</div>
+        <div>
+          <div class="reviewer-name">תאיר שחאדה</div>
+          <div class="reviewer-meta">Local Guide · לפני 3 שנים</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">מדהים 💪</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">נ</div>
+        <div>
+          <div class="reviewer-name">נינו נחלה</div>
+          <div class="reviewer-meta">לפני 4 שנים</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="cta-section" id="contact">
+  <div style="position:relative;z-index:1;">
+    <div class="section-label" style="margin-bottom:24px;">בואו להתחיל</div>
+    <h2 class="section-title">מוכנים לשינוי?<br>הגיע הזמן.</h2>
+    <p class="cta-sub">קבעו שיעור ניסיון ותגלו את הסטודיו הכי מדהים בחיפה</p>
+    <div class="cta-buttons">
+      <a href="tel:+972" class="btn-primary">📞 התקשרו עכשיו</a>
+      <a href="https://maps.google.com" target="_blank" class="btn-secondary">📍 מצאו אותנו בגוגל</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">STUDIO 2FIT</div>
+    <div class="footer-location">📍 חיפה, ישראל</div>
+  </div>
+  <div class="footer-copy">© 2024 Studio 2Fit · כל הזכויות שמורות</div>
+</footer>
+
+</body>
+</html>
